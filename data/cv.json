@@ -1,0 +1,167 @@
+{
+  "personal": {
+    "firstName": "Clara",
+    "lastName": "Devlin",
+    "jobTitle": "Développeuse informatique",
+    "email": "clara.devlin@example.com",
+    "phone": "06 51 23 47 89",
+    "city": "Nantes",
+    "website": "",
+    "linkedin": "",
+    "github": ""
+  },
+
+  "profile": "Développeuse passionnée par la création d'applications utiles, les interfaces bien pensées et les problèmes qui finissent par avoir une solution. Curieuse et persévérante, j'aime apprendre de nouvelles technologies et comprendre pourquoi un programme fonctionne parfaitement... jusqu'au moment où quelqu'un le regarde.",
+
+  "skills": [
+    {
+      "name": "Java",
+      "level": "Avancé"
+    },
+    {
+      "name": "Python",
+      "level": "Avancé"
+    },
+    {
+      "name": "HTML / CSS",
+      "level": "Très à l'aise"
+    },
+    {
+      "name": "JavaScript",
+      "level": "Intermédiaire"
+    },
+    {
+      "name": "SQL",
+      "level": "Intermédiaire"
+    },
+    {
+      "name": "Git",
+      "level": "À l'aise"
+    },
+    {
+      "name": "Debug",
+      "level": "Très motivée quand il faut trouver le bug"
+    }
+  ],
+
+  "experiences": [
+    {
+      "position": "Développeuse full-stack",
+      "company": "Les Pixels Curieux",
+      "location": "Nantes",
+      "startDate": "2023-04",
+      "endDate": "2026-06",
+      "description": "Développement d'applications web, conception de fonctionnalités et maintenance de projets existants. Participation aux réunions techniques et à quelques discussions passionnées sur la meilleure façon de nommer une variable.",
+      "technologies": [
+        "Java",
+        "JavaScript",
+        "HTML",
+        "CSS",
+        "SQL",
+        "Git"
+      ]
+    },
+    {
+      "position": "Développeuse junior",
+      "company": "Web & Biscuit",
+      "location": "Rennes",
+      "startDate": "2021-09",
+      "endDate": "2023-03",
+      "description": "Développement de sites et d'applications web, correction de bugs et amélioration d'interfaces. Découverte progressive du fait que « ça marche chez moi » n'est pas toujours considéré comme une preuve technique suffisante.",
+      "technologies": [
+        "Python",
+        "JavaScript",
+        "MySQL",
+        "Git"
+      ]
+    },
+    {
+      "position": "Stagiaire développeuse",
+      "company": "Code & Co",
+      "location": "Angers",
+      "startDate": "2021-01",
+      "endDate": "2021-06",
+      "description": "Participation au développement d'une application web et apprentissage des bonnes pratiques de développement, du travail en équipe et de l'art subtil de ne pas supprimer la base de données de production.",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ]
+    }
+  ],
+
+  "education": [
+    {
+      "degree": "Master Informatique",
+      "school": "Institut Supérieur du Numérique",
+      "location": "Nantes",
+      "startDate": "2019",
+      "endDate": "2021",
+      "description": "Formation spécialisée en développement logiciel, bases de données et conception d'applications."
+    },
+    {
+      "degree": "Licence Informatique",
+      "school": "Université des Technologies",
+      "location": "Rennes",
+      "startDate": "2016",
+      "endDate": "2019",
+      "description": "Formation générale en programmation, algorithmique, bases de données et développement web."
+    }
+  ],
+
+  "projects": [
+    {
+      "name": "Coffee Manager",
+      "description": "Application permettant de gérer les stocks de café d'une équipe informatique et d'éviter la catastrophe nationale du vendredi après-midi sans café.",
+      "technologies": [
+        "Java",
+        "MariaDB",
+        "JDBC"
+      ],
+      "github": ""
+    },
+    {
+      "name": "Ma ToDo List",
+      "description": "Application de gestion de tâches permettant de créer, modifier et terminer ses tâches. Une fonctionnalité de report automatique au lendemain est actuellement en cours d'étude.",
+      "technologies": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "github": ""
+    },
+    {
+      "name": "Bug Hunter",
+      "description": "Petit outil Python permettant de détecter les erreurs dans du code. Il reste encore quelques bugs à corriger, mais ils sont désormais parfaitement identifiés.",
+      "technologies": [
+        "Python",
+        "SQL"
+      ],
+      "github": ""
+    }
+  ],
+
+  "languages": [
+    {
+      "name": "Français",
+      "level": "Langue maternelle"
+    },
+    {
+      "name": "Anglais",
+      "level": "Courant"
+    },
+    {
+      "name": "Espagnol",
+      "level": "Intermédiaire"
+    }
+  ],
+
+  "interests": [
+    "Développement informatique",
+    "Photographie",
+    "Randonnée",
+    "Jeux vidéo",
+    "Cuisine",
+    "Résoudre des bugs à des heures raisonnables"
+  ]
+}

@@ -1,0 +1,106 @@
+<html>
+<head>
+    <title>CV - Séverine TEST</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- On va mettre ici les blocs pour mon CV et on va essayer de récupérer le contenu du JSON -->
+    <header class="style-flex">
+        <div class = "bande-gauche">        
+            <div class = "photo">
+                <img src="img/image.webp"/>
+            </div>
+        </div>
+        <div class = "bande-droite">     
+            <div class="identite">
+                <div>
+                    <h1 id="nom"></h1>
+                    <p id="titre"></p>
+                </div>
+                <!-- <img src="img/mail.png" class="icone-contact">-->                          
+                <button class="bouton-contact" data-cible="contact">
+                    ✉ Me contacter
+                </button>
+            </div>
+            
+                <div id="contact" class="contact panneau-menu">
+                    <div class="contact-infos">
+                        <p id="email"></p>
+                        <p id="phone"></p>
+                        <p id="ville"></p>
+                    </div>
+                </div>
+
+            <nav class="navigation">
+            <button data-cible="section-description" class="actif">Présentation</button>
+            <button data-cible="section-experiences">Expériences</button>
+            <button data-cible="section-formations">Formations</button>
+            <button data-cible="section-projets">Projets</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class = "style-flex">
+        <aside>            
+            <section id="section-competences">
+                <h2>
+                    Compétences
+                    <span id="bouton-competences" class="classe-bouton">-</span>
+                </h2>
+                <div id="competences" class="visible"></div>
+            </section>
+            <section id="section-langues">
+                <h2>
+                    Langues
+                    <span id="bouton-langues" class="classe-bouton">-</span>
+                </h2>
+                <div id="langues" class="visible"></div>
+            </section>
+            <section id="section-interets">
+                <h2>
+                    Centres d'intérêts
+                    <span id="bouton-interets" class="classe-bouton">-</span>
+                </h2>
+                <div id="interets" class="visible blocElementsVerticaux"></div>
+            </section>    
+        </aside>       
+
+        <div class="bande-droite">
+            <section id="section-description" class="panneau-menu panneau-menu-min actif">
+                <div class="titre-section">
+                    <h2>Présentation</h2>
+                </div>
+                <div id="description"></div>
+            </section>
+
+            <section id="section-experiences" class="panneau-menu panneau-menu-min">
+                <div class="titre-section">
+                    <h2>Expériences</h2>
+                </div>
+                <div id="experiences"></div>
+            </section>
+
+            <section id="section-formations" class="panneau-menu panneau-menu-min">
+                <div class="titre-section">
+                    <h2>Formations</h2>
+                </div>
+                <div id="formations"></div>            
+            </section>            
+            
+            <section id="section-projets" class="panneau-menu panneau-menu-min">
+                <div class="titre-section">
+                    <h2>Projets</h2>
+                </div>                
+                <div id="projets"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2026 Séverine TEST</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
