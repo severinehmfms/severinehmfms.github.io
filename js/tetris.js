@@ -65,7 +65,7 @@ let debutX = 0;
 let debutY = 0;
 let toucherEnCours = false;
 
-const seuilDeplacement = 20;
+const seuilDeplacement = 10;
 
 // Début du toucher
 canvas.addEventListener("pointerdown", function(event) {
@@ -79,12 +79,32 @@ canvas.addEventListener("pointerdown", function(event) {
     debutY = event.clientY;
     toucherEnCours = true;
 
-    // On garde le contrôle du geste même si le doigt
-    // sort du canvas avant la fin du mouvement
     canvas.setPointerCapture(event.pointerId);
 });
 
-// Fin du toucher ou du glissement
+// Déplacement du doigt
+canvas.addEventListener("pointermove", function(event) {
+    event.preventDefault();
+
+    if (!toucherEnCours) {
+        return;
+    }
+
+    const differenceX = event.clientX - debutX;
+
+    if (Math.abs(differenceX) >= seuilDeplacement) {
+        if (differenceX < 0) {
+            envoyerTouche("ArrowLeft");
+        } else {
+            envoyerTouche("ArrowRight");
+        }
+
+        // On repart de la nouvelle position du doigt
+        debutX = event.clientX;
+    }
+});
+
+// Fin du toucher
 canvas.addEventListener("pointerup", function(event) {
     event.preventDefault();
 
@@ -92,36 +112,26 @@ canvas.addEventListener("pointerup", function(event) {
         return;
     }
 
-    toucherEnCours = false;
-
     const differenceX = event.clientX - debutX;
     const differenceY = event.clientY - debutY;
+
+    toucherEnCours = false;
 
     // Toucher simple : tourner la pièce
     if (Math.abs(differenceX) < seuilDeplacement &&
         Math.abs(differenceY) < seuilDeplacement) {
-
         envoyerTouche("ArrowUp");
-    }
-    // Glissement horizontal
-    else if (Math.abs(differenceX) > Math.abs(differenceY)) {
-
-        if (differenceX < 0) {
-            envoyerTouche("ArrowLeft");
-        } else {
-            envoyerTouche("ArrowRight");
-        }
-    }
-    // Glissement vers le bas
-    else if (differenceY > seuilDeplacement) {
-        envoyerTouche("ArrowDown");
     }
 });
 
-// Geste interrompu par le navigateur
+// Geste interrompu
 canvas.addEventListener("pointercancel", function() {
     toucherEnCours = false;
 });
+
+
+
+
 
 
 //On ajoute un évènement sur les touches du clavier
