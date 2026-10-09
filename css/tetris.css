@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: #171927;
+    color: white;
+    font-family: Arial, sans-serif;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteneur-jeu {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+}
+
+.panneau {
+    width: 150px;
+    text-align: center;
+}
+
+h1 {
+    color: #55d6be;
+    font-size: 28px;
+    margin-bottom: 35px;
+    letter-spacing: 2px;
+}
+
+.score-box {
+    background: #292d43;
+    border: 2px solid #55d6be;
+    border-radius: 10px;
+    padding: 15px 10px;
+    margin-bottom: 30px;
+}
+
+.score-box p {
+    margin: 0 0 10px;
+    color: #b8c0d9;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+#score {
+    font-size: 32px;
+    font-weight: bold;
+    color: #55d6be;
+}
+
+.aide {
+    color: #c5c9dc;
+    font-size: 13px;
+    margin: 12px 0;
+}
+
+#jeu {
+    display: block;
+    background: #222538;
+    border: 3px solid #55d6be;
+    border-radius: 5px;
+    box-shadow: 0 0 20px #55d6be33;
+}
+
+/* Adaptation aux téléphones */
+@media (max-width: 500px) {
+    body {
+        align-items: flex-start;
+    }
+
+    .conteneur-jeu {
+        gap: 12px;
+        padding: 10px;
+    }
+
+    .panneau {
+        width: 95px;
+    }
+
+    h1 {
+        font-size: 19px;
+        margin-bottom: 20px;
+    }
+
+    .score-box {
+        padding: 10px 5px;
+        margin-bottom: 20px;
+    }
+
+    #score {
+        font-size: 24px;
+    }
+
+    .aide {
+        font-size: 11px;
+    }
+
+    #jeu {
+        width: min(60vw, 300px);
+        height: auto;
+    }
+}
