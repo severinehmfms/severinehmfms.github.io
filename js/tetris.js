@@ -46,6 +46,17 @@ const formes = [FORME1, FORME2, FORME3, FORME4, FORME5];
 let gameOver = false;
 let score = 0;
 
+canvas.addEventListener("pointerdown", function(event) {
+    event.preventDefault();
+
+    alert("Le toucher est détecté !");
+
+    // Le reste de ton code reste inchangé
+});
+
+
+
+
 let magrille = initGrille();
 
 //On crée une nouvelle pièce
@@ -55,6 +66,7 @@ let piece = nouvellePiece(formes);
 
 let debutX = 0;
 let debutY = 0;
+let toucherEnCours = false;
 
 const seuilDeplacement = 20;
 
@@ -62,27 +74,39 @@ const seuilDeplacement = 20;
 canvas.addEventListener("pointerdown", function(event) {
     event.preventDefault();
 
+    if (!event.isPrimary) {
+        return;
+    }
+
     debutX = event.clientX;
     debutY = event.clientY;
+    toucherEnCours = true;
+
+    // On garde le contrôle du geste même si le doigt
+    // sort du canvas avant la fin du mouvement
+    canvas.setPointerCapture(event.pointerId);
 });
 
 // Fin du toucher ou du glissement
 canvas.addEventListener("pointerup", function(event) {
     event.preventDefault();
 
-    const finX = event.clientX;
-    const finY = event.clientY;
+    if (!toucherEnCours) {
+        return;
+    }
 
-    const differenceX = finX - debutX;
-    const differenceY = finY - debutY;
+    toucherEnCours = false;
 
-    // Petit déplacement : on considère que c'est un toucher
+    const differenceX = event.clientX - debutX;
+    const differenceY = event.clientY - debutY;
+
+    // Toucher simple : tourner la pièce
     if (Math.abs(differenceX) < seuilDeplacement &&
         Math.abs(differenceY) < seuilDeplacement) {
 
         envoyerTouche("ArrowUp");
     }
-    // Le déplacement horizontal est dominant
+    // Glissement horizontal
     else if (Math.abs(differenceX) > Math.abs(differenceY)) {
 
         if (differenceX < 0) {
@@ -91,11 +115,17 @@ canvas.addEventListener("pointerup", function(event) {
             envoyerTouche("ArrowRight");
         }
     }
-    // Le déplacement vertical est dominant
-    else if (differenceY > 0) {
+    // Glissement vers le bas
+    else if (differenceY > seuilDeplacement) {
         envoyerTouche("ArrowDown");
     }
 });
+
+// Geste interrompu par le navigateur
+canvas.addEventListener("pointercancel", function() {
+    toucherEnCours = false;
+});
+
 
 //On ajoute un évènement sur les touches du clavier
 document.addEventListener("keydown", function(event) {
