@@ -45,17 +45,14 @@ const formes = [FORME1, FORME2, FORME3, FORME4, FORME5];
 
 let gameOver = false;
 let score = 0;
-
+/*
 canvas.addEventListener("pointerdown", function(event) {
     event.preventDefault();
 
     alert("Le toucher est détecté !");
 
     // Le reste de ton code reste inchangé
-});
-
-
-
+});*/
 
 let magrille = initGrille();
 
