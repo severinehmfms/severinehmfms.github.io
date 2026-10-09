@@ -51,6 +51,52 @@ let magrille = initGrille();
 //On crée une nouvelle pièce
 let piece = nouvellePiece(formes);
 
+
+
+let debutX = 0;
+let debutY = 0;
+
+const seuilDeplacement = 20;
+
+// Début du toucher
+canvas.addEventListener("pointerdown", function(event) {
+    event.preventDefault();
+
+    debutX = event.clientX;
+    debutY = event.clientY;
+});
+
+// Fin du toucher ou du glissement
+canvas.addEventListener("pointerup", function(event) {
+    event.preventDefault();
+
+    const finX = event.clientX;
+    const finY = event.clientY;
+
+    const differenceX = finX - debutX;
+    const differenceY = finY - debutY;
+
+    // Petit déplacement : on considère que c'est un toucher
+    if (Math.abs(differenceX) < seuilDeplacement &&
+        Math.abs(differenceY) < seuilDeplacement) {
+
+        envoyerTouche("ArrowUp");
+    }
+    // Le déplacement horizontal est dominant
+    else if (Math.abs(differenceX) > Math.abs(differenceY)) {
+
+        if (differenceX < 0) {
+            envoyerTouche("ArrowLeft");
+        } else {
+            envoyerTouche("ArrowRight");
+        }
+    }
+    // Le déplacement vertical est dominant
+    else if (differenceY > 0) {
+        envoyerTouche("ArrowDown");
+    }
+});
+
 //On ajoute un évènement sur les touches du clavier
 document.addEventListener("keydown", function(event) {
     //Calcul du nombre de lignes par pièce, et nombre de pixels par pièce, mais pour l'instant non utilisé
@@ -115,6 +161,18 @@ document.addEventListener("keydown", function(event) {
     }
     
 });
+
+
+// Réutilise le listener clavier existant
+function envoyerTouche(touche) {
+    document.dispatchEvent(
+        new KeyboardEvent("keydown", {
+            key: touche,
+            bubbles: true,
+            cancelable: true
+        })
+    );
+}
 
 //Pour détecter le gameover (merci chat gpt)
 function peutPlacerPiece(piece) {

@@ -100,5 +100,7 @@ h1 {
     #jeu {
         width: min(60vw, 300px);
         height: auto;
+
+        touch-action: none;
     }
 }
