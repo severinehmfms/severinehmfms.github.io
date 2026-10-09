@@ -82,6 +82,7 @@ canvas.addEventListener("pointerdown", function(event) {
     canvas.setPointerCapture(event.pointerId);
 });
 
+/*
 // Déplacement du doigt
 canvas.addEventListener("pointermove", function(event) {
     event.preventDefault();
@@ -102,7 +103,43 @@ canvas.addEventListener("pointermove", function(event) {
         // On repart de la nouvelle position du doigt
         debutX = event.clientX;
     }
+});*/
+// Déplacement du doigt
+canvas.addEventListener("pointermove", function(event) {
+    event.preventDefault();
+
+    if (!toucherEnCours) {
+        return;
+    }
+
+    const differenceX = event.clientX - debutX;
+    const differenceY = event.clientY - debutY;
+
+    // Déplacement horizontal
+    if (Math.abs(differenceX) >= seuilDeplacement &&
+        Math.abs(differenceX) > Math.abs(differenceY)) {
+
+        if (differenceX < 0) {
+            envoyerTouche("ArrowLeft");
+        } else {
+            envoyerTouche("ArrowRight");
+        }
+
+        debutX = event.clientX;
+        debutY = event.clientY;
+    }
+
+    // Déplacement vertical vers le bas
+    else if (differenceY >= seuilDeplacement &&
+             Math.abs(differenceY) > Math.abs(differenceX)) {
+
+        envoyerTouche("ArrowDown");
+
+        debutX = event.clientX;
+        debutY = event.clientY;
+    }
 });
+
 
 // Fin du toucher
 canvas.addEventListener("pointerup", function(event) {
