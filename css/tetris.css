@@ -93,6 +93,18 @@ h1 {
         font-size: 24px;
     }
 
+    .vitesse-box {
+        padding: 10px 5px;
+    }
+
+    .vitesse-box p {
+        font-size: 11px;
+    }
+
+    #vitesse {
+        font-size: 16px;
+    }
+
     .aide {
         font-size: 11px;
     }
@@ -181,4 +193,32 @@ h1 {
 .bouton-direction:focus-visible {
     outline: 2px solid white;
     outline-offset: 3px;
+}
+
+.vitesse-box {
+    background: #292d43;
+    border: 2px solid #55d6be; /* ← contour à remettre */
+    border-radius: 10px;
+    padding: 12px 8px;
+    margin-bottom: 20px;
+}
+
+.barre-vitesse {
+    display: block;
+    width: 100%;
+    height: 12px;
+    margin-top: 10px;
+    background-color: #171927;
+    border: 1px solid #55d6be;
+    border-radius: 6px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#progression-vitesse {
+    display: block;
+    height: 100%;
+    width: 10%;
+    background-color: #55d6be;
+    transition: width 0.3s ease;
 }

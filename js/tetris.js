@@ -9,7 +9,11 @@ const HAUTEUR = 600;
 //Nombre de lignes et de colonnes
 const NBLIGNES = HAUTEUR / CASE;
 const NBCOLONNES = LARGEUR / CASE;
-const TIME = 400;
+//Vitesse
+const TEMPS_INITIAL = 400;
+const TEMPS_MINIMUM = 100;
+const POINTS_PAR_NIVEAU = 500;
+const REDUCTION_PAR_NIVEAU = 50;
 //On définit les différentes formes possibles
 const FORME1 =  [
         [1,1,0],
@@ -255,6 +259,7 @@ function peutPlacerPiece(piece) {
     return true;
 }
 
+/*
 //Toutes les TIME ms
 setInterval(function () {
     //Si la partie n'est pas finie
@@ -281,7 +286,74 @@ setInterval(function () {
         draw(piece);
     }
 
-}, TIME);
+}, TIME);*/
+
+
+function tempsSelonScore() {
+    const niveau = Math.floor(score / POINTS_PAR_NIVEAU);
+
+    return Math.max(
+        TEMPS_MINIMUM,
+        TEMPS_INITIAL - niveau * REDUCTION_PAR_NIVEAU
+    );
+}
+
+function afficherVitesse() {
+    const niveau = Math.floor(score / POINTS_PAR_NIVEAU) + 1;
+    const progression = Math.min(
+        100,
+        (TEMPS_INITIAL - tempsSelonScore()) /
+        (TEMPS_INITIAL - TEMPS_MINIMUM) * 100
+    );
+
+    document.getElementById("vitesse").textContent =
+        "Niveau " + niveau;
+
+    document.getElementById("progression-vitesse").style.width =
+        progression + "%";
+}
+
+
+function descendreAutomatiquement() {
+    // Si la partie est terminée, on arrête la chute
+    if (gameOver) {
+        return;
+    }
+
+    if (peutDescendre(piece)) {
+        piece.y += CASE;
+    } else {
+        // Fixer la pièce dans la grille
+        fixerPiece(piece);
+
+        // Supprimer les lignes complètes et actualiser le score
+        supprimerLignesCompletes();
+
+        // Créer une nouvelle pièce
+        piece = nouvellePiece(formes);
+
+        // Vérifier si la partie est terminée
+        if (!peutPlacerPiece(piece)) {
+            gameOver = true;
+            alert("Game Over !");
+            return;
+        }
+    }
+
+    // Redessiner le jeu
+    draw(piece);
+
+    afficherVitesse();
+
+    // Programmer la prochaine chute avec la vitesse actuelle
+    setTimeout(descendreAutomatiquement, tempsSelonScore());
+}
+
+afficherVitesse();
+
+// Lancer la première chute automatique
+setTimeout(descendreAutomatiquement, tempsSelonScore());
+
 
 
 //Fonction qui vérifie si la pièce peut encore descendre (retourne false si arrivée en bas!)
