@@ -154,6 +154,9 @@ function draw() {
         canvas.height
     );
 
+    // On dessine le quadrillage en premier
+    drawGrid();
+
     //On dessine le serpent
     drawSnake();
     //On dessine la nourriture
@@ -167,6 +170,28 @@ function draw() {
             120,
             200
         );
+    }
+}
+
+//Fonction qui dessine la grille
+function drawGrid() {
+    context.strokeStyle = "#dddddd"; // Gris très léger
+    context.lineWidth = 0.5;
+
+    // Lignes verticales
+    for (let x = 20; x < canvas.width; x += 20) {
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.lineTo(x, canvas.height);
+        context.stroke();
+    }
+
+    // Lignes horizontales
+    for (let y = 20; y < canvas.height; y += 20) {
+        context.beginPath();
+        context.moveTo(0, y);
+        context.lineTo(canvas.width, y);
+        context.stroke();
     }
 }
 
