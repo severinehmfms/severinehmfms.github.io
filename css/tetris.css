@@ -104,3 +104,51 @@ h1 {
         touch-action: none;
     }
 }
+
+/* Zone contenant le canvas et les commandes */
+.zone-jeu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Disposition des quatre boutons */
+.commandes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 300px;
+}
+
+/* Style des boutons */
+.bouton-direction {
+    background: #292d43;
+    color: #55d6be;
+    border: 2px solid #55d6be;
+    border-radius: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    min-height: 52px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #55d6be22;
+
+    /* Évite les gestes tactiles parasites */
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+
+    transition: background 0.15s, color 0.15s;
+}
+
+/* Retour visuel lors de l'appui */
+.bouton-direction:active {
+    background: #55d6be;
+    color: #171927;
+}
+
+/* Accessibilité clavier */
+.bouton-direction:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
