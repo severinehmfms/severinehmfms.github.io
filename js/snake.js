@@ -31,6 +31,7 @@ restartButton.addEventListener("click", function() {
     draw();
 });
 
+/*
 //On ajoute un évènement sur les touches du clavier, pour changer la direction du serpent
 document.addEventListener("keydown", function(event) {
 
@@ -51,7 +52,60 @@ document.addEventListener("keydown", function(event) {
         direction = "RIGHT";
     }
 
+});*/
+
+
+/**
+ * Change la direction du serpent
+ * sans lui permettre de faire demi-tour.
+ */
+function changeDirection(newDirection) {
+
+    if (newDirection === "UP" && direction !== "DOWN") {
+        direction = "UP";
+    } else if (newDirection === "DOWN" && direction !== "UP") {
+        direction = "DOWN";
+    } else if (newDirection === "LEFT" && direction !== "RIGHT") {
+        direction = "LEFT";
+    } else if (newDirection === "RIGHT" && direction !== "LEFT") {
+        direction = "RIGHT";
+    }
+}
+
+// Commandes au clavier sur ordinateur
+document.addEventListener("keydown", function(event) {
+
+    const keys = {
+        ArrowUp: "UP",
+        ArrowDown: "DOWN",
+        ArrowLeft: "LEFT",
+        ArrowRight: "RIGHT"
+    };
+
+    if (keys[event.key]) {
+        event.preventDefault();
+        changeDirection(keys[event.key]);
+    }
 });
+
+// Commandes tactiles sur smartphone
+document.getElementById("up").addEventListener("click", function() {
+    changeDirection("UP");
+});
+
+document.getElementById("down").addEventListener("click", function() {
+    changeDirection("DOWN");
+});
+
+document.getElementById("left").addEventListener("click", function() {
+    changeDirection("LEFT");
+});
+
+document.getElementById("right").addEventListener("click", function() {
+    changeDirection("RIGHT");
+});
+
+
 
 //Toutes les 150 ms, on appelle la fonction qui fait bouger le serpent puis celle qui l'affiche
 setInterval(function () {

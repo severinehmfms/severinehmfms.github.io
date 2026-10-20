@@ -18,8 +18,17 @@
 
     <canvas id="game" width="400" height="400"></canvas>
 
-    <br>
+    <!-- Boutons de direction -->
+    <div id="controls">
+        <button class="arrow" id="up" aria-label="Haut">▲</button>
 
+        <div class="horizontal-controls">
+            <button class="arrow" id="left" aria-label="Gauche">◀</button>
+            <button class="arrow" id="down" aria-label="Bas">▼</button>
+            <button class="arrow" id="right" aria-label="Droite">▶</button>
+        </div>
+    </div>
+    
     <button id="restart">Recommencer</button>
 
     <script src="js/snake.js"></script>
