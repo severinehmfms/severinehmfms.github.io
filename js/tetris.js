@@ -32,7 +32,7 @@ const FORME5 = [
     [1,1,1]
 ];
 
-//TODO Voir comment FIXER les couleurs une fois les pièces en bas
+//Voir comment FIXER les couleurs une fois les pièces en bas
 const couleurs = {
     1: "#3498DB", // Bleu
     2: "#F1C40F", // Jaune
@@ -50,8 +50,6 @@ canvas.addEventListener("pointerdown", function(event) {
     event.preventDefault();
 
     alert("Le toucher est détecté !");
-
-    // Le reste de ton code reste inchangé
 });*/
 
 let magrille = initGrille();
@@ -60,7 +58,7 @@ let magrille = initGrille();
 let piece = nouvellePiece(formes);
 
 
-
+/*
 let debutX = 0;
 let debutY = 0;
 let toucherEnCours = false;
@@ -82,28 +80,7 @@ canvas.addEventListener("pointerdown", function(event) {
     canvas.setPointerCapture(event.pointerId);
 });
 
-/*
-// Déplacement du doigt
-canvas.addEventListener("pointermove", function(event) {
-    event.preventDefault();
 
-    if (!toucherEnCours) {
-        return;
-    }
-
-    const differenceX = event.clientX - debutX;
-
-    if (Math.abs(differenceX) >= seuilDeplacement) {
-        if (differenceX < 0) {
-            envoyerTouche("ArrowLeft");
-        } else {
-            envoyerTouche("ArrowRight");
-        }
-
-        // On repart de la nouvelle position du doigt
-        debutX = event.clientX;
-    }
-});*/
 // Déplacement du doigt
 canvas.addEventListener("pointermove", function(event) {
     event.preventDefault();
@@ -165,11 +142,19 @@ canvas.addEventListener("pointerup", function(event) {
 canvas.addEventListener("pointercancel", function() {
     toucherEnCours = false;
 });
+*/
 
+/* Commandes tactiles avec les quatre boutons */
+document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
 
+    bouton.addEventListener("pointerdown", function(event) {
+        event.preventDefault();
 
+        const touche = bouton.dataset.touche;
+        envoyerTouche(touche);
+    });
 
-
+});
 
 //On ajoute un évènement sur les touches du clavier
 document.addEventListener("keydown", function(event) {
