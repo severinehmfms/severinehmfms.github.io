@@ -100,8 +100,38 @@ h1 {
     #jeu {
         width: min(60vw, 300px);
         height: auto;
+    }
 
-        touch-action: none;
+    /* Commandes adaptées au smartphone */
+    .commandes {
+        width: min(60vw, 300px);
+        gap: 6px;
+    }
+
+    .bouton-direction {
+        min-width: 0;
+        min-height: 48px;
+        padding: 4px;
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 350px) {
+    .conteneur-jeu {
+        gap: 8px;
+        padding: 6px;
+    }
+
+    .panneau {
+        width: 85px;
+    }
+
+    .commandes {
+        gap: 4px;
+    }
+
+    .bouton-direction {
+        font-size: 22px;
     }
 }
 
