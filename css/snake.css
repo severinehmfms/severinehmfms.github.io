@@ -199,6 +199,14 @@ p {
     }
 
     #restart {
-        margin-bottom: 4px;
+        margin-top: 24px;
+        padding: 10px 18px;
+    }
+}
+
+@media (max-width: 450px) {
+    #restart {
+        margin-top: 24px;
+        padding: 10px 18px;
     }
 }

@@ -127,9 +127,9 @@ function initGame(){
 
     //On définit l'emplacement de base du serpent
     snake = [
-        { x: 200, y: 200 },
-        { x: 180, y: 200 },
-        { x: 160, y: 200 }
+        { x: 100, y: 200 },
+        { x: 80, y: 200 },
+        { x: 60, y: 200 }
     ];
 
     //On définit l'emplacement de base de la nourriture
@@ -183,14 +183,38 @@ function drawFood() {
     );
 }
 
-//Fonction qui dessine le serpent
-function drawSnake() {
+//Fonction qui dessine le serpent normalement
+function drawSnakeOld() {
 
     context.fillStyle = "green";
 
     for (let part of snake) {
 
         context.fillRect(
+            part.x,
+            part.y,
+            20,
+            20
+        );
+    }
+}
+
+//Fonction qui dessine le serpent avec un petit trait blanc
+function drawSnake() {
+    context.fillStyle = "green";
+    context.strokeStyle = "white";
+    context.lineWidth = 1;
+
+    for (let part of snake) {
+        context.fillRect(
+            part.x,
+            part.y,
+            20,
+            20
+        );
+
+        // Léger contour blanc autour de chaque case
+        context.strokeRect(
             part.x,
             part.y,
             20,
