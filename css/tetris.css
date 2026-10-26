@@ -10,6 +10,13 @@ body {
     align-items: center;
 }
 
+/* Empêcher la sélection du texte sur les boutons */
+button {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+}
+
 .conteneur-jeu {
     display: flex;
     align-items: center;
