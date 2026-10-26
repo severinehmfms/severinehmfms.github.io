@@ -179,9 +179,13 @@ h1 {
     /* Évite les gestes tactiles parasites */
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
 
     transition: background 0.15s, color 0.15s;
 }
+=
 
 /* Retour visuel lors de l'appui */
 .bouton-direction:active {
