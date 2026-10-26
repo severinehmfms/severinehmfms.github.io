@@ -49,104 +49,14 @@ const formes = [FORME1, FORME2, FORME3, FORME4, FORME5];
 
 let gameOver = false;
 let score = 0;
-/*
-canvas.addEventListener("pointerdown", function(event) {
-    event.preventDefault();
-
-    alert("Le toucher est détecté !");
-});*/
 
 let magrille = initGrille();
 
 //On crée une nouvelle pièce
 let piece = nouvellePiece(formes);
 
-
-/*
-let debutX = 0;
-let debutY = 0;
-let toucherEnCours = false;
-
-const seuilDeplacement = 10;
-
-// Début du toucher
-canvas.addEventListener("pointerdown", function(event) {
-    event.preventDefault();
-
-    if (!event.isPrimary) {
-        return;
-    }
-
-    debutX = event.clientX;
-    debutY = event.clientY;
-    toucherEnCours = true;
-
-    canvas.setPointerCapture(event.pointerId);
-});
-
-
-// Déplacement du doigt
-canvas.addEventListener("pointermove", function(event) {
-    event.preventDefault();
-
-    if (!toucherEnCours) {
-        return;
-    }
-
-    const differenceX = event.clientX - debutX;
-    const differenceY = event.clientY - debutY;
-
-    // Déplacement horizontal
-    if (Math.abs(differenceX) >= seuilDeplacement &&
-        Math.abs(differenceX) > Math.abs(differenceY)) {
-
-        if (differenceX < 0) {
-            envoyerTouche("ArrowLeft");
-        } else {
-            envoyerTouche("ArrowRight");
-        }
-
-        debutX = event.clientX;
-        debutY = event.clientY;
-    }
-
-    // Déplacement vertical vers le bas
-    else if (differenceY >= seuilDeplacement &&
-             Math.abs(differenceY) > Math.abs(differenceX)) {
-
-        envoyerTouche("ArrowDown");
-
-        debutX = event.clientX;
-        debutY = event.clientY;
-    }
-});
-
-
-// Fin du toucher
-canvas.addEventListener("pointerup", function(event) {
-    event.preventDefault();
-
-    if (!toucherEnCours) {
-        return;
-    }
-
-    const differenceX = event.clientX - debutX;
-    const differenceY = event.clientY - debutY;
-
-    toucherEnCours = false;
-
-    // Toucher simple : tourner la pièce
-    if (Math.abs(differenceX) < seuilDeplacement &&
-        Math.abs(differenceY) < seuilDeplacement) {
-        envoyerTouche("ArrowUp");
-    }
-});
-
-// Geste interrompu
-canvas.addEventListener("pointercancel", function() {
-    toucherEnCours = false;
-});
-*/
+let nbcolonnespiece;
+let nbcolonnespiecepixels;
 
 /* Commandes tactiles avec les quatre boutons */
 document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
@@ -174,6 +84,25 @@ document.addEventListener("keydown", function(event) {
         event.preventDefault();
     }
 
+    //Rajout d'un contrôle pour corriger le bug "quand ma pièce arrive tout en bas j'arrive à la décaler par exemple vers la gauche et alors elle "rentre" dans une autre pièce déjà fixée"
+    if (event.key === "ArrowLeft") {
+        // On mémorise la position actuelle
+        let anciennePositionX = piece.x;
+
+        // On essaie de déplacer la pièce vers la gauche
+        if (piece.x > 0) {
+            piece.x -= CASE;
+        }
+
+        // Si la nouvelle position provoque une collision,
+        // on revient à la position précédente
+        if (!peutPlacerPiece(piece)) {
+            piece.x = anciennePositionX;
+        }
+
+        draw(piece);
+    }
+    /*
     if (event.key === "ArrowLeft") {
         if (event.key === "ArrowLeft") {
             if (piece.x > 0) {
@@ -182,14 +111,35 @@ document.addEventListener("keydown", function(event) {
 
             draw(piece);
         }
-    }
+    }*/
 
+    //Rajout d'un contrôle pour corriger le bug "quand ma pièce arrive tout en bas j'arrive à la décaler par exemple vers la gauche et alors elle "rentre" dans une autre pièce déjà fixée"
+    if (event.key === "ArrowRight") {
+        // On mémorise la position actuelle
+        let anciennePositionX = piece.x;
+
+        // On essaie de déplacer la pièce vers la droite
+        let largeurPiece = getNbColonnesForme(piece.forme) * CASE;
+
+        if (piece.x + CASE <= LARGEUR - largeurPiece) {
+            piece.x += CASE;
+        }
+
+        // Si la nouvelle position provoque une collision,
+        // on revient à la position précédente
+        if (!peutPlacerPiece(piece)) {
+            piece.x = anciennePositionX;
+        }
+
+        draw(piece);
+    }
+    /*
     if (event.key === "ArrowRight") {
         //piece.x = piece.x + CASE > LARGEUR - CASE ? LARGEUR - CASE : piece.x + CASE;
         piece.x = piece.x + CASE < LARGEUR - nbcolonnespiecepixels ? piece.x + CASE : LARGEUR - nbcolonnespiecepixels;
 
         draw(piece);
-    }
+    }*/
 
     //Touche du haut on fait tourner la pièce 
     if (event.key === "ArrowUp") {
@@ -206,6 +156,8 @@ document.addEventListener("keydown", function(event) {
 
     //Touche du bas on descend plus vite
     if (event.key === "ArrowDown") {
+
+        //TODO Voir pour descendre encore plus vite
         if (peutDescendre(piece)) {
             piece.y += CASE;
         } else {
@@ -224,6 +176,11 @@ document.addEventListener("keydown", function(event) {
     }
     
 });
+
+afficherVitesse();
+
+// Lancer la première chute automatique
+setTimeout(descendreAutomatiquement, tempsSelonScore());
 
 
 // Réutilise le listener clavier existant
@@ -259,36 +216,7 @@ function peutPlacerPiece(piece) {
     return true;
 }
 
-/*
-//Toutes les TIME ms
-setInterval(function () {
-    //Si la partie n'est pas finie
-    if (!gameOver) {
-        if (peutDescendre(piece)){
-            let hauteurpiecepixels = getNbLignesForme(piece.forme) * CASE;        
-            //On est plus obligé de faire les vérifications puisqu'on l'a fait dans la fonction peutDescendre
-            //piece.y = piece.y < HAUTEUR - hauteurpiecepixels ? piece.y + CASE : HAUTEUR - hauteurpiecepixels;
-            piece.y += CASE;
-        }else {
-            //Si la pièce ne peut plus descendre, on enregistre sa position dans la matrice
-            fixerPiece(piece);
-            //On supprime les lignes complètes
-            supprimerLignesCompletes();
-            //On crée une nouvelle pièce
-            piece = nouvellePiece(formes);
-
-            // Si la nouvelle pièce ne peut pas se placer, la partie est terminée
-            if (!peutPlacerPiece(piece)) {
-                gameOver = true;
-                alert("Game Over !");
-            }
-        }
-        draw(piece);
-    }
-
-}, TIME);*/
-
-
+//Fonction qui détermine le temps de descente suivant le score
 function tempsSelonScore() {
     const niveau = Math.floor(score / POINTS_PAR_NIVEAU);
 
@@ -298,6 +226,7 @@ function tempsSelonScore() {
     );
 }
 
+//Fonction qui affiche la vitesse 
 function afficherVitesse() {
     const niveau = Math.floor(score / POINTS_PAR_NIVEAU) + 1;
     const progression = Math.min(
@@ -313,13 +242,13 @@ function afficherVitesse() {
         progression + "%";
 }
 
-
 function descendreAutomatiquement() {
     // Si la partie est terminée, on arrête la chute
     if (gameOver) {
         return;
     }
 
+    //Si la pièce peut encore descendre on la fait descendre
     if (peutDescendre(piece)) {
         piece.y += CASE;
     } else {
@@ -343,31 +272,13 @@ function descendreAutomatiquement() {
     // Redessiner le jeu
     draw(piece);
 
+    //Afficher la vitesse
     afficherVitesse();
 
     // Programmer la prochaine chute avec la vitesse actuelle
     setTimeout(descendreAutomatiquement, tempsSelonScore());
 }
 
-afficherVitesse();
-
-// Lancer la première chute automatique
-setTimeout(descendreAutomatiquement, tempsSelonScore());
-
-
-
-//Fonction qui vérifie si la pièce peut encore descendre (retourne false si arrivée en bas!)
-//TODO Il faudra vérifier si il y a pas déjà une pièce à cet endroit! rajouter une condition si une des cases dessous de la matrice contient un 1
-/*function peutDescendre(piece) {
-    let hauteurPiece = getNbLignesForme(piece.forme);
-
-    // Si la pièce atteint le bas de la grille
-    if (piece.y + hauteurPiece * CASE >= HAUTEUR) {
-        return false;
-    }
-
-    return true;
-}*/
 //Fonction peutDescendre qui cette fois vérifie la matrice (merci chatgpt)
 function peutDescendre(piece) {
     // On parcourt les lignes de la forme courante
@@ -405,7 +316,7 @@ function peutDescendre(piece) {
 }
 
 //Fonction pour la rotation des pièces (merci chatgpt)
-//Nouvelle fonction tourner pièce qui vérifie si ça va provoquer une collision
+/*
 function tournerPiece(piece) {
     let ancienneForme = piece.forme;
     let nbLignes = ancienneForme.length;
@@ -452,15 +363,18 @@ function tournerPiece(piece) {
         piece.forme = ancienneForme;
     }
 }
-/*
-//Fonction qui fait tourner une pièce
+*/
+
+//Fonction pour la rotation des pièces (merci chatgpt)
 function tournerPiece(piece) {
     let ancienneForme = piece.forme;
+    let anciennePositionX = piece.x;
+
     let nbLignes = ancienneForme.length;
     let nbColonnes = ancienneForme[0].length;
-
     let nouvelleForme = [];
 
+    // Rotation de 90° vers la droite
     for (let j = 0; j < nbColonnes; j++) {
         nouvelleForme[j] = [];
 
@@ -469,9 +383,41 @@ function tournerPiece(piece) {
         }
     }
 
-    // On remplace l'ancienne forme par la nouvelle
+    // Supprimer les lignes entièrement vides
+    nouvelleForme = nouvelleForme.filter(
+        ligne => ligne.some(valeur => valeur === 1)
+    );
+
+    // Supprimer les colonnes entièrement vides
+    let colonnesNonVides = [];
+
+    for (let j = 0; j < nouvelleForme[0].length; j++) {
+        if (nouvelleForme.some(ligne => ligne[j] === 1)) {
+            colonnesNonVides.push(j);
+        }
+    }
+
+    nouvelleForme = nouvelleForme.map(ligne =>
+        colonnesNonVides.map(j => ligne[j])
+    );
+
+    // On essaie la nouvelle forme
     piece.forme = nouvelleForme;
-}*/
+
+    let largeur = getNbColonnesForme(piece.forme) * CASE;
+
+    // Si la pièce dépasse le bord droit, on la décale
+    if (piece.x + largeur > LARGEUR) {
+        piece.x = LARGEUR - largeur;
+    }
+
+    // On vérifie si la rotation est possible
+    if (!peutPlacerPiece(piece)) {
+        // La rotation est impossible : on annule tout
+        piece.forme = ancienneForme;
+        piece.x = anciennePositionX;
+    }
+}
 
 //Fonction qui fixe la pièce dans la grille
 function fixerPiece(piece) {
@@ -632,7 +578,6 @@ function afficheGrilleRemplie() {
     }
 }
 
-
 //Fonction qui dessine une pièce
 function drawPiece(piece) {    
     //Couleur qui sera utilisée pour la pièce 
@@ -656,6 +601,7 @@ function drawPiece(piece) {
     //strokeRect(x, y, largeur, hauteur)
 }
 
+//Efface la grille, affiche la grille, et affiche la pièce
 function draw(piece){
     //On efface toute la grille
     context.clearRect(0, 0, LARGEUR, HAUTEUR);
