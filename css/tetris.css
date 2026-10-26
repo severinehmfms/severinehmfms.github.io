@@ -233,3 +233,49 @@ h1 {
     background-color: #55d6be;
     transition: width 0.3s ease;
 }
+
+/*Boutons pause et reprendre*/
+.bouton-jeu {
+    appearance: none;
+    -webkit-appearance: none;
+
+    display: block;
+    width: 100%;
+    padding: 10px 6px;
+    margin-bottom: 12px;
+
+    background-color: #292d43;
+    color: #55d6be;
+    border: 2px solid #55d6be;
+    border-radius: 10px;
+
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+
+    cursor: pointer;
+    box-shadow: 0 0 10px #55d6be22;
+}
+
+.bouton-jeu:hover {
+    background: #55d6be;
+    color: #171927;
+    box-shadow: 0 0 16px #55d6be66;
+}
+
+/* Quand on appuie sur le bouton */
+.bouton-jeu:active {
+    transform: scale(0.96);
+}
+
+/* Contour visible pour la navigation au clavier */
+.bouton-jeu:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+/* Respecter l'attribut hidden du HTML */
+.bouton-jeu[hidden] {
+    display: none;
+}

@@ -50,6 +50,9 @@ const formes = [FORME1, FORME2, FORME3, FORME4, FORME5];
 let gameOver = false;
 let score = 0;
 
+let enPause = false;
+let minuterie = null;
+
 let magrille = initGrille();
 
 //On crée une nouvelle pièce
@@ -57,6 +60,46 @@ let piece = nouvellePiece(formes);
 
 let nbcolonnespiece;
 let nbcolonnespiecepixels;
+
+
+const boutonPause = document.getElementById("bouton-pause");
+const boutonReprendre = document.getElementById("bouton-reprendre");
+
+// Mettre la partie en pause
+boutonPause.addEventListener("click", function() {
+    if (gameOver || enPause) {
+        return;
+    }
+
+    enPause = true;
+
+    // Arrêter la chute automatique
+    clearTimeout(minuterie);
+
+    // Afficher le bon bouton
+    boutonPause.hidden = true;
+    boutonReprendre.hidden = false;
+});
+
+// Reprendre la partie
+boutonReprendre.addEventListener("click", function() {
+    if (gameOver || !enPause) {
+        return;
+    }
+
+    enPause = false;
+
+    // Afficher le bon bouton
+    boutonPause.hidden = false;
+    boutonReprendre.hidden = true;
+
+    // Relancer la chute automatique
+    minuterie = setTimeout(
+        descendreAutomatiquement,
+        tempsSelonScore()
+    );
+});
+
 
 /* Commandes tactiles avec les quatre boutons */
 document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
@@ -72,6 +115,10 @@ document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
 
 //On ajoute un évènement sur les touches du clavier
 document.addEventListener("keydown", function(event) {
+    if (enPause || gameOver) {
+        return;
+    }
+
     //Calcul du nombre de lignes par pièce, et nombre de pixels par pièce, mais pour l'instant non utilisé
     //nblignespiece = getNbLignesForme(piece.forme);
     //nblignespiecepixels = nblignespiece * CASE;
@@ -180,7 +227,8 @@ document.addEventListener("keydown", function(event) {
 afficherVitesse();
 
 // Lancer la première chute automatique
-setTimeout(descendreAutomatiquement, tempsSelonScore());
+//setTimeout(descendreAutomatiquement, tempsSelonScore());
+minuterie = setTimeout(descendreAutomatiquement, tempsSelonScore());
 
 
 // Réutilise le listener clavier existant
@@ -276,7 +324,9 @@ function descendreAutomatiquement() {
     afficherVitesse();
 
     // Programmer la prochaine chute avec la vitesse actuelle
-    setTimeout(descendreAutomatiquement, tempsSelonScore());
+    //setTimeout(descendreAutomatiquement, tempsSelonScore());
+
+    minuterie = setTimeout(descendreAutomatiquement, tempsSelonScore());
 }
 
 //Fonction peutDescendre qui cette fois vérifie la matrice (merci chatgpt)
