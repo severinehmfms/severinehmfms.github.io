@@ -102,13 +102,31 @@ boutonReprendre.addEventListener("click", function() {
 
 
 /* Commandes tactiles avec les quatre boutons */
-document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
+/*document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
 
     bouton.addEventListener("pointerdown", function(event) {
         event.preventDefault();
 
         const touche = bouton.dataset.touche;
         envoyerTouche(touche);
+    });
+
+});*/
+document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
+
+    bouton.addEventListener("pointerdown", function(event) {
+        event.preventDefault();
+
+        // Si c'est le bouton de descente rapide
+        if (bouton.dataset.action === "hard-drop") {
+            if (!enPause && !gameOver) {
+                descenteRapide();
+            }
+        } else {
+            // Sinon, on utilise le fonctionnement habituel
+            const touche = bouton.dataset.touche;
+            envoyerTouche(touche);
+        }
     });
 
 });
@@ -326,6 +344,41 @@ function descendreAutomatiquement() {
     // Programmer la prochaine chute avec la vitesse actuelle
     //setTimeout(descendreAutomatiquement, tempsSelonScore());
 
+    minuterie = setTimeout(descendreAutomatiquement, tempsSelonScore());
+}
+
+function descenteRapide() {
+    //On arrête la minuterie 
+    clearTimeout(minuterie);
+
+    // Tant que la pièce peut descendre,
+    // on la fait descendre d'une case
+    while (peutDescendre(piece)) {
+        piece.y += CASE;
+    }
+
+    // On fixe la pièce dans la grille
+    fixerPiece(piece);
+
+    // On supprime les lignes complètes
+    supprimerLignesCompletes();
+
+    // On crée une nouvelle pièce
+    piece = nouvellePiece(formes);
+
+    // On vérifie si la partie est terminée
+    if (!peutPlacerPiece(piece)) {
+        gameOver = true;
+        clearTimeout(minuterie);
+        alert("Game Over !");
+        return;
+    }
+
+    // On redessine le jeu
+    draw(piece);
+    afficherVitesse();
+
+    //On remet la minuterie
     minuterie = setTimeout(descendreAutomatiquement, tempsSelonScore());
 }
 
