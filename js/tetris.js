@@ -348,6 +348,7 @@ function descendreAutomatiquement() {
     minuterie = setTimeout(descendreAutomatiquement, tempsSelonScore());
 }
 
+/*
 function descenteRapide() {
     //On arrête la minuterie 
     clearTimeout(minuterie);
@@ -381,6 +382,42 @@ function descenteRapide() {
 
     //On remet la minuterie
     minuterie = setTimeout(descendreAutomatiquement, tempsSelonScore());
+}
+*/
+function descenteRapide() {
+    clearTimeout(minuterie);
+
+    // On essaie de descendre de 5 cases maximum
+    for (let i = 0; i < 5; i++) {
+        if (peutDescendre(piece)) {
+            piece.y += CASE;
+        } else {
+            break;
+        }
+    }
+
+    // Si la pièce ne peut plus descendre,
+    // on la fixe dans la grille
+    if (!peutDescendre(piece)) {
+        fixerPiece(piece);
+        supprimerLignesCompletes();
+
+        piece = nouvellePiece(formes);
+
+        if (!peutPlacerPiece(piece)) {
+            gameOver = true;
+            alert("Game Over !");
+            return;
+        }
+    }
+
+    draw(piece);
+    afficherVitesse();
+
+    minuterie = setTimeout(
+        descendreAutomatiquement,
+        tempsSelonScore()
+    );
 }
 
 //Fonction peutDescendre qui cette fois vérifie la matrice (merci chatgpt)
