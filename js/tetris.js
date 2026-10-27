@@ -119,8 +119,8 @@ document.querySelectorAll(".bouton-direction").forEach(function(bouton) {
 
         // Si c'est le bouton de descente rapide
         if (bouton.dataset.action === "hard-drop") {
-            //alert("Appel de descenteRapide");
             if (!enPause && !gameOver) {
+                //alert("Appel de descenteRapide");
                 descenteRapide();
             }
         } else {
