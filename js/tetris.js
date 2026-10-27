@@ -680,7 +680,8 @@ function initGrille(){
     return grille;
 }
 
-//Fonction qui dessine la grille du tetris
+/*
+//Fonction qui dessine la grille du tetris (sans quadrillage)
 function afficheGrille(){
     //On va afficher une grille de 10 colonnes et 20 lignes
     let x = 0;
@@ -696,6 +697,27 @@ function afficheGrille(){
         }
         y = 0;
         x = x + CASE;
+    }
+}*/
+
+function afficheQuadrillage() {
+    context.strokeStyle = "#34384a";
+    context.lineWidth = 1;
+
+    // Lignes verticales
+    for (let x = 0; x <= LARGEUR; x += CASE) {
+        context.beginPath();
+        context.moveTo(x, 0);
+        context.lineTo(x, HAUTEUR);
+        context.stroke();
+    }
+
+    // Lignes horizontales
+    for (let y = 0; y <= HAUTEUR; y += CASE) {
+        context.beginPath();
+        context.moveTo(0, y);
+        context.lineTo(LARGEUR, y);
+        context.stroke();
     }
 }
 
@@ -746,6 +768,9 @@ function drawPiece(piece) {
 function draw(piece){
     //On efface toute la grille
     context.clearRect(0, 0, LARGEUR, HAUTEUR);
+
+    //On affiche le quadrillage
+    afficheQuadrillage();
 
     //On réaffiche la grille
     //afficheGrille();
